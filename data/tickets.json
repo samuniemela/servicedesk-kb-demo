@@ -1,0 +1,202 @@
+[
+  {
+    "id": "T-1001", "created": "2026-03-02T08:14:00", "closed": "2026-03-02T09:40:00", "category": "Exchange Online",
+    "organization": "Kuusirinne Oy",
+    "requester": { "name": "Matti Virtanen", "email": "matti.virtanen@kuusirinne.fi", "phone": "+358 40 123 4567" },
+    "contacts": [],
+    "title": "Jaettu postilaatikko ei näy Outlookissa",
+    "description": "Hei, laskutus@kuusirinne.fi -postilaatikko ei näy enää Outlookissani, vaikka eilen näkyi. Voitteko katsoa? t. Matti Virtanen, 040 123 4567",
+    "resolution": "Käyttäjällä oli FullAccess-oikeus, mutta automapping ei toiminut, koska oikeus oli lisätty ryhmän kautta. Poistettiin ryhmäpohjainen oikeus ja lisättiin suora FullAccess-oikeus AutoMapping-asetuksella. Postilaatikko ilmestyi Outlookiin noin 30 minuutissa.",
+    "worklog": "Soitin Matille, tarkistettiin Get-MailboxPermission. Matin koneella Outlook-versio 2402."
+  },
+  {
+    "id": "T-1002", "created": "2026-03-03T10:02:00", "closed": "2026-03-03T10:35:00", "category": "Entra ID / MFA",
+    "organization": "Merivaara Logistics Oy",
+    "requester": { "name": "Sari Laine", "email": "Sari.Laine@merivaara.com", "phone": "0501234987" },
+    "contacts": [],
+    "title": "Uusi puhelin, Authenticator ei toimi",
+    "description": "Vaihdoin puhelimen ja nyt Authenticator ei anna kirjautua. Vanha puhelin on jo palautettu. Sari Laine / Merivaara Logistics, puh. 050 123 4987",
+    "resolution": "Vahvistettiin käyttäjän henkilöllisyys takaisinsoitolla rekisteröityyn numeroon. Entra ID:ssä vaadittiin MFA-menetelmien uudelleenrekisteröinti ja poistettiin vanha Authenticator-laite. Käyttäjä rekisteröi uuden laitteen osoitteessa aka.ms/mysecurityinfo.",
+    "worklog": "Sarille lähetetty ohje sähköpostilla."
+  },
+  {
+    "id": "T-1003", "created": "2026-03-04T07:45:00", "closed": "2026-03-05T12:10:00", "category": "Intune / Autopilot",
+    "organization": "Pohjolan Tilitoimisto Oy",
+    "requester": { "name": "Pekka Nieminen", "email": "pekka.nieminen@pohjolantilitoimisto.fi", "phone": "+358 44 987 6543" },
+    "contacts": [ { "name": "Anne Korhonen", "email": "anne.korhonen@pohjolantilitoimisto.fi" } ],
+    "title": "Autopilot-käyttöönotto kaatuu virheeseen 0x80180014",
+    "description": "Uusi kannettava (sarjanumero 5CG3341XYZ) jää Autopilotissa virheeseen 0x80180014. Anne Korhonen odottaa konetta maanantaiksi. Pekka Nieminen",
+    "resolution": "Virhe 0x80180014 johtui siitä, että laite oli aiemmin rekisteröity ja poistettu Intunesta, mutta vanha laiteobjekti oli jäänyt estämään uuden rekisteröinnin. Poistettiin vanha laiteobjekti Intunesta ja Autopilot-laitteista, tuotiin hardware hash uudelleen ja odotettiin profiilin kohdistusta. Käyttöönotto onnistui.",
+    "worklog": "Pekan kanssa sovittu, että Annen kone toimitetaan perjantaina. Etäyhteys 10.20.4.15."
+  },
+  {
+    "id": "T-1004", "created": "2026-03-05T13:20:00", "closed": "2026-03-06T09:00:00", "category": "Exchange Online / Tulostus",
+    "organization": "Kuusirinne Oy",
+    "requester": { "name": "Juha Mäkinen", "email": "juha.makinen@kuusirinne.fi", "phone": "045-678 1234" },
+    "contacts": [],
+    "title": "Monitoimilaitteen scan-to-email lakkasi toimimasta",
+    "description": "Toimiston Ricoh ei enää lähetä skannauksia sähköpostiin. Virhe: authentication failed. Juha Mäkinen, Kuusirinne",
+    "resolution": "Laite käytti SMTP AUTH -perustunnistautumista, joka oli poistunut käytöstä. Konfiguroitiin Exchange Online -liitin toimiston julkisella IP-osoitteella ja laite lähettämään SMTP-relayn kautta porttiin 25 ilman tunnistautumista. Testiskannaus onnistui.",
+    "worklog": "Juha kävi painamassa testiskannauksen."
+  },
+  {
+    "id": "T-1005", "created": "2026-03-09T09:30:00", "closed": "2026-03-09T11:15:00", "category": "Teams",
+    "organization": "Merivaara Logistics Oy",
+    "requester": { "name": "Laura Heikkinen", "email": "laura.heikkinen@merivaara.com", "phone": "040 555 0101" },
+    "contacts": [],
+    "title": "Teams-kokouksen tallenne puuttuu",
+    "description": "Hi, the recording of yesterday's board meeting is not in the chat. Can you find it? Br, Laura Heikkinen",
+    "resolution": "Tallenne oli tallentunut kokouksen järjestäjän OneDriveen Recordings-kansioon, mutta tallennuskäytäntö esti linkin näkymisen osallistujille. Jaettiin tallenne järjestäjän OneDrivesta osallistujille ja tarkistettiin Teamsin kokouskäytännön tallennusasetukset.",
+    "worklog": "Laura was informed by email in English."
+  },
+  {
+    "id": "T-1006", "created": "2026-03-10T07:05:00", "closed": "2026-03-10T07:25:00", "category": "Intune / BitLocker",
+    "organization": "Pohjolan Tilitoimisto Oy",
+    "requester": { "name": "Anne Korhonen", "email": "anne.korhonen@pohjolantilitoimisto.fi", "phone": "0409876543" },
+    "contacts": [],
+    "title": "Kone kysyy BitLocker-palautusavainta",
+    "description": "Kone kysyy käynnistyksessä jotain palautusavainta, en pääse sisään. Anne, puh 040 987 6543",
+    "resolution": "Haettiin palautusavain Intunesta laitteen Recovery keys -kohdasta käyttäjän henkilöllisyyden varmistamisen jälkeen. Syynä oli BIOS-päivitys, joka muutti TPM-mittauksia. Suositeltiin BitLockerin keskeyttämistä BIOS-päivitysten ajaksi.",
+    "worklog": "Annelle luettu avain puhelimessa."
+  },
+  {
+    "id": "T-1007", "created": "2026-03-11T12:40:00", "closed": "2026-03-11T13:30:00", "category": "Exchange Online",
+    "organization": "Pohjolan Tilitoimisto Oy",
+    "requester": { "name": "Mikko Salonen", "email": "mikko.salonen@pohjolantilitoimisto.fi", "phone": "+358401112233" },
+    "contacts": [],
+    "title": "Asiakaspalvelu-postilaatikko puuttuu Outlookista",
+    "description": "Tarvitsen pääsyn asiakaspalvelu-laatikkoon. Pomo sanoi että oikeudet on annettu jo viime viikolla mutta ei näy. Mikko Salonen",
+    "resolution": "Oikeus oli annettu sähköpostiryhmän kautta, jolloin automapping ei toimi. Lisättiin käyttäjälle suora FullAccess-oikeus AutoMapping-asetuksella. Postilaatikko näkyi Outlookissa uudelleenkäynnistyksen jälkeen.",
+    "worklog": "Mikolle kerrottu, että muutos voi viedä tunnin."
+  },
+  {
+    "id": "T-1008", "created": "2026-03-12T08:10:00", "closed": "2026-03-12T10:00:00", "category": "Intune / Compliance",
+    "organization": "Kuusirinne Oy",
+    "requester": { "name": "Matti Virtanen", "email": "MATTI.VIRTANEN@KUUSIRINNE.FI", "phone": "+358 40 123 4567" },
+    "contacts": [],
+    "title": "Kone ei-yhteensopiva, Teams ei aukea",
+    "description": "Teams sanoo että laitteeni ei täytä organisaation vaatimuksia. Matti V.",
+    "resolution": "Laite oli merkitty ei-yhteensopivaksi, koska Windows-versio oli vaatimusta vanhempi ja Defenderin virustunnisteet vanhentuneet. Ajettiin Windows Update ja Defenderin tunnistepäivitys, synkronoitiin laite Intuneen. Compliance-tila päivittyi yhteensopivaksi noin 20 minuutissa.",
+    "worklog": "Virtasen kone, sarjanumero PF3KQ2LM."
+  },
+  {
+    "id": "T-1009", "created": "2026-03-13T14:00:00", "closed": "2026-03-13T14:30:00", "category": "Entra ID / MFA",
+    "organization": "Kuusirinne Oy",
+    "requester": { "name": "Juha Mäkinen", "email": "juha.makinen@kuusirinne.fi", "phone": "045 678 1234" },
+    "contacts": [],
+    "title": "MFA-koodi menee vanhaan puhelimeen",
+    "description": "Puhelin hajosi ja sain uuden, nyt en pääse sisään koska vahvistus menee vanhaan. Juhalle voi soittaa numeroon 045 678 1234.",
+    "resolution": "Henkilöllisyys varmistettiin esihenkilöltä. Poistettiin vanhat todennusmenetelmät ja vaadittiin MFA:n uudelleenrekisteröinti. Annettiin Temporary Access Pass, jolla käyttäjä rekisteröi uuden Authenticatorin.",
+    "worklog": "Juhan esihenkilö vahvisti puhelimitse."
+  },
+  {
+    "id": "T-1010", "created": "2026-03-16T09:00:00", "closed": "2026-03-17T08:30:00", "category": "SharePoint",
+    "organization": "Merivaara Logistics Oy",
+    "requester": { "name": "Ville Koskinen", "email": "ville.koskinen@merivaara.com", "phone": "050 765 4321" },
+    "contacts": [ { "name": "Tom Andersson", "email": "tom.andersson@partnerab.se" } ],
+    "title": "Ulkoinen kumppani ei pääse jaettuun kansioon",
+    "description": "Jaoin kansion Tom Anderssonille (tom.andersson@partnerab.se) mutta hän saa virheen 'access denied'. Ville Koskinen",
+    "resolution": "SharePoint-sivuston ulkoinen jakaminen oli rajattu vain olemassa oleviin vieraisiin. Sallittiin sivustolla uudet ja olemassa olevat vieraat organisaation käytännön mukaisesti asiakkaan hyväksynnällä, ja jako lähetettiin uudelleen.",
+    "worklog": "Hyväksyntä saatu Villen esihenkilöltä sähköpostilla."
+  },
+  {
+    "id": "T-1011", "created": "2026-03-17T07:50:00", "closed": "2026-03-17T08:05:00", "category": "Entra ID",
+    "organization": "Pohjolan Tilitoimisto Oy",
+    "requester": { "name": "Mikko Salonen", "email": "mikko.salonen@pohjolantilitoimisto.fi", "phone": "040 111 2233" },
+    "contacts": [],
+    "title": "Salasana vanhentunut",
+    "description": "Salasana vanheni enkä muista miten se vaihdetaan etänä. Mikko",
+    "resolution": "Ohjattiin käyttäjä vaihtamaan salasana itsepalveluna (SSPR) osoitteessa aka.ms/sspr. Tarkistettiin, että käyttäjällä on SSPR:n vaatimat todennusmenetelmät rekisteröitynä.",
+    "worklog": ""
+  },
+  {
+    "id": "T-1012", "created": "2026-03-18T11:00:00", "closed": "2026-03-19T09:20:00", "category": "Intune / Autopilot",
+    "organization": "Merivaara Logistics Oy",
+    "requester": { "name": "Ville Koskinen", "email": "ville.koskinen@merivaara.com", "phone": "+358 50 765 4321" },
+    "contacts": [],
+    "title": "Uusi läppäri ei mene Autopilotin läpi",
+    "description": "Uusi kone pysähtyy käyttöönotossa, virhekoodi 0x80180014. Kone on kierrätetty toiselta käyttäjältä. Ville",
+    "resolution": "Kierrätetyn laitteen vanha Intune-objekti oli edelleen olemassa. Poistettiin laite Intunesta, Entra ID:stä ja Autopilot-listalta, tuotiin hardware hash uudelleen ja odotettiin profiilin kohdistusta. Käyttöönotto onnistui toisella yrityksellä.",
+    "worklog": "Koskisen kone, sarjanumero 5CG2219ABC."
+  },
+  {
+    "id": "T-1013", "created": "2026-03-19T13:30:00", "closed": "2026-03-20T10:00:00", "category": "Käyttäjähallinta",
+    "organization": "Kuusirinne Oy",
+    "requester": { "name": "Juha Mäkinen", "email": "juha.makinen@kuusirinne.fi", "phone": "045 678 1234" },
+    "contacts": [ { "name": "Emilia Lehtonen", "email": "emilia.lehtonen@kuusirinne.fi" } ],
+    "title": "Uusi työntekijä aloittaa maanantaina",
+    "description": "Emilia Lehtonen aloittaa ma 23.3. myyntiin. Tarvitsee tunnukset, lisenssin ja läppärin. Emilian puhelin 041 234 5678. Juha",
+    "resolution": "Luotiin käyttäjä Entra ID:hen ja lisättiin myyntitiimin ryhmiin, jolloin Business Premium -lisenssi kohdistui ryhmäpohjaisesti. Kone tilattiin ja rekisteröitiin Autopilotiin. Tunnukset toimitettiin esihenkilölle sovitun prosessin mukaisesti.",
+    "worklog": "Emilian kone toimitetaan Juhalle perjantaina."
+  },
+  {
+    "id": "T-1014", "created": "2026-03-23T08:30:00", "closed": "2026-03-23T09:10:00", "category": "Exchange Online",
+    "organization": "Merivaara Logistics Oy",
+    "requester": { "name": "Laura Heikkinen", "email": "laura.heikkinen@merivaara.com", "phone": "040 555 0101" },
+    "contacts": [],
+    "title": "Shared mailbox not visible in Outlook",
+    "description": "I was given access to the logistics shared mailbox but it does not show up in Outlook. Laura",
+    "resolution": "Access had been granted through a mail-enabled security group, which does not support automapping. Granted direct FullAccess with AutoMapping enabled. The mailbox appeared after Outlook restart.",
+    "worklog": "Lauran Outlook käynnistetty uudelleen etänä."
+  },
+  {
+    "id": "T-1015", "created": "2026-03-24T15:00:00", "closed": "2026-03-25T08:45:00", "category": "Teams",
+    "organization": "Kuusirinne Oy",
+    "requester": { "name": "Matti Virtanen", "email": "matti.virtanen@kuusirinne.fi", "phone": "040 123 4567" },
+    "contacts": [],
+    "title": "Palaverin nauhoite hukassa",
+    "description": "Nauhoitin asiakaspalaverin Teamsissa mutta en löydä tallennetta mistään. Matti",
+    "resolution": "Kanavakokouksen tallenne oli tallentunut kanavan SharePoint-kansioon Recordings eikä järjestäjän OneDriveen. Ohjattiin käyttäjä kanavan Tiedostot-välilehdelle.",
+    "worklog": ""
+  },
+  {
+    "id": "T-1016", "created": "2026-03-26T09:15:00", "closed": "2026-03-26T09:50:00", "category": "Entra ID / MFA",
+    "organization": "Pohjolan Tilitoimisto Oy",
+    "requester": { "name": "Anne Korhonen", "email": "anne.korhonen@pohjolantilitoimisto.fi", "phone": "040 987 6543" },
+    "contacts": [],
+    "title": "Authenticator-sovellus poistettu vahingossa",
+    "description": "Poistin vahingossa Authenticatorin puhelimesta. Miten pääsen nyt sähköpostiin? Anne Korhonen, Pohjolan Tilitoimisto",
+    "resolution": "Varmistettiin henkilöllisyys ja vaadittiin MFA-menetelmien uudelleenrekisteröinti. Käyttäjä asensi Authenticatorin uudelleen ja rekisteröi sen. Suositeltiin varmuuskopioinnin käyttöönottoa Authenticatorissa.",
+    "worklog": "Korhoselle lähetetty ohje."
+  },
+  {
+    "id": "T-1017", "created": "2026-03-27T10:30:00", "closed": "2026-03-27T12:00:00", "category": "Intune / Compliance",
+    "organization": "Merivaara Logistics Oy",
+    "requester": { "name": "Sari Laine", "email": "sari.laine@merivaara.com", "phone": "050 123 4987" },
+    "contacts": [],
+    "title": "Laite ei täytä vaatimuksia, Outlook estetty",
+    "description": "Outlook ilmoittaa että laitteeni ei ole yhteensopiva. Eilen toimi. -Sari",
+    "resolution": "Laite oli ei-yhteensopiva, koska BitLocker ei ollut käytössä levyn vaihdon jälkeen. Otettiin BitLocker käyttöön Intunen salauskäytännöllä ja synkronoitiin laite. Compliance päivittyi ja Conditional Access päästi läpi.",
+    "worklog": "Sarin kone huollettu viime viikolla, levy vaihdettu."
+  },
+  {
+    "id": "T-1018", "created": "2026-03-30T08:00:00", "closed": "2026-03-30T14:20:00", "category": "Exchange Online / Tulostus",
+    "organization": "Pohjolan Tilitoimisto Oy",
+    "requester": { "name": "Pekka Nieminen", "email": "pekka.nieminen@pohjolantilitoimisto.fi", "phone": "044 987 6543" },
+    "contacts": [],
+    "title": "Skannaus sähköpostiin ei toimi",
+    "description": "Kopiokone (Canon) ei lähetä skannauksia, virhe #818. Pekka",
+    "resolution": "Laitteen SMTP-asetuksissa oli käytössä perustunnistautuminen, jota Exchange Online ei enää tue. Määritettiin laite käyttämään SMTP-relayta liittimen kautta toimiston kiinteällä IP-osoitteella 85.76.120.44. Testi onnistui.",
+    "worklog": "Niemisen kanssa testattu yhdessä."
+  },
+  {
+    "id": "T-1019", "created": "2026-03-31T07:30:00", "closed": "2026-03-31T07:50:00", "category": "Intune / BitLocker",
+    "organization": "Kuusirinne Oy",
+    "requester": { "name": "Emilia Lehtonen", "email": "emilia.lehtonen@kuusirinne.fi", "phone": "041 234 5678" },
+    "contacts": [],
+    "title": "BitLocker recovery screen",
+    "description": "Läppäri kysyy palautusavainta päivityksen jälkeen. Emilia Lehtonen, myynti",
+    "resolution": "Palautusavain haettiin Intunesta henkilöllisyyden varmistamisen jälkeen. Syynä oli firmware-päivitys. Tarkistettiin, että avain on tallessa Entra ID:ssä.",
+    "worklog": "Lehtoselle luettu avain."
+  },
+  {
+    "id": "T-1020", "created": "2026-04-01T12:00:00", "closed": "2026-04-02T09:30:00", "category": "SharePoint",
+    "organization": "Kuusirinne Oy",
+    "requester": { "name": "Juha Mäkinen", "email": "juha.makinen@kuusirinne.fi", "phone": "045 678 1234" },
+    "contacts": [ { "name": "Kari Hämäläinen", "email": "kari@hamalainen-rakennus.fi" } ],
+    "title": "Alihankkija ei pääse tiedostoihin",
+    "description": "Kari Hämäläinen (kari@hamalainen-rakennus.fi) ei pääse projektikansioon vaikka jaoin linkin. Juha",
+    "resolution": "Sivuston jakoasetus salli vain organisaation sisäiset linkit. Asiakkaan hyväksynnällä sallittiin olemassa olevat ja uudet vieraat kyseisellä sivustolla ja lähetettiin jako uudelleen. Vieraskäyttäjä hyväksyi kutsun.",
+    "worklog": "Karille soitettu ja ohjeistettu kutsun hyväksyntä."
+  }
+]
