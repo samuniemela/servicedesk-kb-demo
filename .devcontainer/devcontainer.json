@@ -1,0 +1,8 @@
+{
+  "name": "servicedesk-kb-demo",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/powershell:1": {}
+  },
+  "postCreateCommand": "pwsh -c \"Install-Module Pester -MinimumVersion 5.0 -Scope CurrentUser -Force\""
+}

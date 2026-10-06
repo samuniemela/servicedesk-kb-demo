@@ -1,4 +1,4 @@
-\xef\xbb\xbf<#
+<#
 .SYNOPSIS
 Anonymisoi suljetut tiketit ja tarkistaa, ettei henkilötietoja jäänyt.
 .EXAMPLE

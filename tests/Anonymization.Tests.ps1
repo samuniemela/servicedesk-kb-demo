@@ -1,4 +1,4 @@
-\xef\xbb\xbf#Requires -Modules @{ ModuleName = 'Pester'; ModuleVersion = '5.0' }
+#Requires -Modules @{ ModuleName = 'Pester'; ModuleVersion = '5.0' }
 
 BeforeDiscovery {
     $tickets = Get-Content "$PSScriptRoot/../data/tickets.json" -Raw -Encoding utf8 | ConvertFrom-Json
