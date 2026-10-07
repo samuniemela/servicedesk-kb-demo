@@ -1,0 +1,32 @@
+{
+  "id": "KB-1003",
+  "title": "Autopilot-käyttöönotto epäonnistuu virheellä 0x80180014",
+  "symptoms": "Uuden laitteen Autopilot-käyttöönotto kaatuu virheeseen 0x80180014. Laite pysähtyy asennusprosessin aikana eikä pääse eteenpäin.",
+  "cause": "Laite oli aiemmin rekisteröity ja poistettu Intunesta, mutta vanha laiteobjekti jäi järjestelmään estämään uuden rekisteröinnin. Tämä aiheuttaa ristiriidan Autopilot-profiilin kohdistusvaiheessa.",
+  "steps": [
+    "Etsi laite Intune-hallintakeskuksessa (intune.microsoft.com) sarjanumerolla.",
+    "Poista vanha laiteobjekti Intunen laitelistasta.",
+    "Poista laite Autopilot-laitteiden listasta (Devices → Enrollment → Windows Autopilot devices).",
+    "Poista vanha laiteobjekti tarvittaessa myös Entra ID:stä.",
+    "Tuo laitteen hardware hash uudelleen Autopilotiin.",
+    "Odota, kunnes Autopilot-profiilin tila on Assigned.",
+    "Nollaa laite ja käynnistä käyttöönotto (OOBE) uudelleen."
+  ],
+  "keywords": [
+    "Autopilot",
+    "Intune",
+    "virhe 0x80180014",
+    "laiteobjekti",
+    "käyttöönotto",
+    "hardware hash",
+    "profiili",
+    "rekisteröinti"
+  ],
+  "category": "Intune / Autopilot",
+  "sourceTicket": "T-1003",
+  "status": "Hyväksytty",
+  "provider": "Claude (claude-haiku-4-5-20251001)",
+  "createdAt": "2026-10-07T06:27:50",
+  "reviewedBy": "Samu",
+  "reviewedAt": "2026-10-07T06:33:49"
+}

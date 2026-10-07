@@ -32,6 +32,8 @@ Uusi tiketti: Kahvinkeitin rikki toimistolla
 
 Suomenkielinen tiketti löytää myös englanninkielisen artikkelin (KB-1014), ja asiaan liittymätön tiketti ei saa keksittyjä ehdotuksia.
 
+Oikean AI:n (Claude) kirjoittamia ja ihmisen tarkistamia esimerkkiartikkeleita on kansiossa [examples/](examples/). Tarkistuksessa KB-1003:sta korjattiin vaiheiden järjestys ja KB-1004:stä puuttuva SMTP-osoite ja SPF-tietue.
+
 ## Työnkulku
 
 1. **Anonymisointi** – nimet (myös taivutetut muodot), sähköpostit, puhelinnumerot, IP-osoitteet, sarjanumerot ja organisaatiot korvataan merkinnöillä.

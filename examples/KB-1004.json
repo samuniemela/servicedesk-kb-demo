@@ -1,0 +1,30 @@
+{
+  "id": "KB-1004",
+  "title": "Monitoimilaitteen scan-to-email -toiminnon palauttaminen Exchange Onlinessa",
+  "symptoms": "Monitoimilaite ei pysty lähettämään skannauksia sähköpostiin. Laitteen lokeissa näkyy virhe: authentication failed.",
+  "cause": "SMTP AUTH -perustunnistautuminen on poistunut käytöstä Exchange Onlinessa. Laite yrittää lähettää skannauksia käyttäen vanhentunutta tunnistautumismenetelmää.",
+  "steps": [
+    "Varmista, että toimistolla on kiinteä julkinen IP-osoite.",
+    "Luo Exchange Onlineen saapuva liitin (lähde: organisaation sähköpostipalvelin), joka tunnistaa lähettäjän toimiston IP-osoitteesta.",
+    "Lisää toimiston IP-osoite domainin SPF-tietueeseen.",
+    "Määritä laitteen SMTP-palvelimeksi tenantin MX-osoite (muotoa yritys-fi.mail.protection.outlook.com), portti 25, ilman tunnistautumista ja TLS käytössä, jos laite tukee sitä.",
+    "Lähetä testiskannaus sekä sisäiseen että ulkoiseen osoitteeseen.",
+    "Kirjaa uudet SMTP-asetukset laitteen dokumentaatioon."
+  ],
+  "keywords": [
+    "Exchange Online",
+    "scan-to-email",
+    "SMTP",
+    "monitoimilaite",
+    "tunnistautuminen",
+    "SMTP AUTH",
+    "sähköpostirelay"
+  ],
+  "category": "Exchange Online / Tulostus",
+  "sourceTicket": "T-1004",
+  "status": "Hyväksytty",
+  "provider": "Claude (claude-haiku-4-5-20251001)",
+  "createdAt": "2026-10-07T06:27:55",
+  "reviewedBy": "Samu",
+  "reviewedAt": "2026-10-07T06:35:21"
+}

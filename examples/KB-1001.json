@@ -1,0 +1,32 @@
+{
+  "id": "KB-1001",
+  "title": "Jaettu postilaatikko ei näy Outlookissa",
+  "symptoms": "Käyttäjällä oli aiemmin pääsy jaettuun postilaatikkoon Outlookissa, mutta se ei näy enää sovelluksessa. Muut sähköpostit toimivat normaalisti.",
+  "cause": "Automapping-ominaisuus ei toimi, jos FullAccess-oikeus on lisätty käyttäjälle ryhmän kautta sen sijaan että se olisi lisätty suoraan käyttäjälle. Outlook ei automaattisesti kartoita ryhmäpohjaisesti myönnettyjä jaettuja postilaatikoita.",
+  "steps": [
+    "Avaa Microsoft 365 admin -keskus tai Exchange Online -hallintapaneeli",
+    "Etsi kyseisen jaetun postilaatikon oikeudet",
+    "Tarkista, onko käyttäjällä FullAccess-oikeus ryhmän jäsenyyden kautta",
+    "Poista ryhmäpohjainen FullAccess-oikeus",
+    "Lisää käyttäjälle suora FullAccess-oikeus ottamalla AutoMapping-asetus käyttöön",
+    "Odota 30 minuuttia, jotta muutos synkronoituu",
+    "Pyydä käyttäjää sulkemaan ja avaamaan Outlook uudelleen",
+    "Varmista, että jaettu postilaatikko näkyy nyt käyttäjän Outlookissa"
+  ],
+  "keywords": [
+    "Exchange Online",
+    "jaettu postilaatikko",
+    "Outlook",
+    "FullAccess",
+    "automapping",
+    "oikeudet",
+    "ryhmäpohjainen pääsy"
+  ],
+  "category": "Exchange Online",
+  "sourceTicket": "T-1001",
+  "status": "Hyväksytty",
+  "provider": "Claude (claude-haiku-4-5-20251001)",
+  "createdAt": "2026-10-07T06:27:39",
+  "reviewedBy": "Samu",
+  "reviewedAt": "2026-10-07T06:35:21"
+}
