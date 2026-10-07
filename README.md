@@ -10,13 +10,21 @@ Ratkaistuista tiketeistä syntyy tietopankkiartikkeleita tekoälyn avulla, eikä
 2. **Tarkistusportti** – jos henkilötietoja jää, mitään ei tallenneta eikä lähetetä eteenpäin. *(valmis)*
 3. **Artikkeliluonnos** – AI kirjoittaa anonymisoidusta tiketistä ohjeen. AI-mallille lähtee vain tarkistusportin läpäissyt teksti ilman työlokia, ja myös vastaus tarkistetaan. *(valmis)*
 4. **Hyväksyntä** – luonnos päätyy tietopankkiin vasta, kun ihminen hyväksyy sen. *(valmis)*
-5. **Ratkaisuehdotus** – uutta tikettiä verrataan hyväksyttyihin artikkeleihin. *(tulossa)*
+5. **Ratkaisuehdotus** – uutta tikettiä verrataan hyväksyttyihin artikkeleihin, ja käsittelijä saa 1–3 parasta osumaa pisteineen. Vertailu tehdään paikallisesti ja se ymmärtää suomen taivutusmuodot sekä suomen- ja englanninkieliset termit ("postilaatikko" ↔ "mailbox"). *(valmis)*
 
 AI-taustajärjestelmä on vaihdettava: testitila toimii ilman verkkoyhteyttä ja API-avainta, Claude API ottaa avaimen ympäristömuuttujasta `ANTHROPIC_API_KEY`.
 
 ## Käyttö
 
 Avaa repo GitHub Codespacesissa – PowerShell ja Pester asentuvat automaattisesti.
+
+Nopein tapa nähdä koko idea:
+
+```powershell
+./scripts/Show-Demo.ps1
+```
+
+Vaiheittain:
 
 ```powershell
 Invoke-Pester ./tests -Output Detailed
@@ -27,6 +35,9 @@ Import-Module ./src/KnowledgeBase.psm1
 Get-KBArticle -Path ./output/kb -Status Luonnos | Format-Table id, title
 Set-KBArticleStatus -Path ./output/kb -Id KB-1001 -Status Hyväksytty -Reviewer Samu
 Get-KnowledgeBase -Path ./output/kb
+
+Import-Module ./src/Suggestion.psm1
+Find-KBSuggestion -Text 'Jaettu laatikko ei näy Outlookissa' -KbPath ./output/kb
 ```
 
 ## Rajoitukset
