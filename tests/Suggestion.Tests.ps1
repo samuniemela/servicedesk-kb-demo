@@ -31,6 +31,10 @@ Describe 'Get-TextToken' {
         (Get-TextToken $_).Keys | Should -Contain '#recording'
     }
 
+    It 'tunnistaa astevaihtelun: <_>' -ForEach @('vaihtui', 'vaihdoin', 'vaihto', 'replaced') {
+        (Get-TextToken $_).Keys | Should -Contain '#change'
+    }
+
     It 'ohittaa täytesanat' {
         (Get-TextToken 'ei ja on se').Count | Should -Be 0
     }
@@ -53,6 +57,11 @@ Describe 'Find-KBSuggestion' {
         foreach ($id in $Expected | Select-Object -First 2) {
             $result.Id | Should -Contain $id
         }
+    }
+
+    It 'nostaa puhelimen vaihdon artikkelin ensimmäiseksi' {
+        $r = @(Find-KBSuggestion -Text 'Puhelin vaihtui, en saa MFA-vahvistusta' -KbPath $script:KbPath)
+        $r[0].Id | Should -Be 'KB-1002'
     }
 
     It 'ei ehdota mitään asiaan liittymättömälle tiketille' {

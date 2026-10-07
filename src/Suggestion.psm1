@@ -23,6 +23,7 @@ $script:Concepts = [ordered]@{
     password   = 'salasan', 'password', 'sspr'
     laptop     = 'läppär', 'kannettav', 'laptop', 'kone'
     newuser    = 'työntekij', 'aloitta', 'onboard', 'tunnukse'
+    change     = 'vaihto', 'vaihtu', 'vaihd', 'vaihta', 'replac', 'switch'
     access     = 'pääse', 'pääsy', 'access', 'oikeu'
 }
 
