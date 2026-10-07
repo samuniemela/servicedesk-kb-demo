@@ -8,19 +8,27 @@ Ratkaistuista tiketeistä syntyy tietopankkiartikkeleita tekoälyn avulla, eikä
 
 1. **Anonymisointi** – nimet (myös taivutetut muodot), sähköpostit, puhelinnumerot, IP-osoitteet, sarjanumerot ja organisaatiot korvataan merkinnöillä. *(valmis)*
 2. **Tarkistusportti** – jos henkilötietoja jää, mitään ei tallenneta eikä lähetetä eteenpäin. *(valmis)*
-3. **Artikkeliluonnos** – AI kirjoittaa anonymisoidusta tiketistä ohjeen; ihminen hyväksyy. *(tulossa)*
-4. **Ratkaisuehdotus** – uutta tikettiä verrataan hyväksyttyihin artikkeleihin. *(tulossa)*
+3. **Artikkeliluonnos** – AI kirjoittaa anonymisoidusta tiketistä ohjeen. AI-mallille lähtee vain tarkistusportin läpäissyt teksti ilman työlokia, ja myös vastaus tarkistetaan. *(valmis)*
+4. **Hyväksyntä** – luonnos päätyy tietopankkiin vasta, kun ihminen hyväksyy sen. *(valmis)*
+5. **Ratkaisuehdotus** – uutta tikettiä verrataan hyväksyttyihin artikkeleihin. *(tulossa)*
+
+AI-taustajärjestelmä on vaihdettava: testitila toimii ilman verkkoyhteyttä ja API-avainta, Claude API ottaa avaimen ympäristömuuttujasta `ANTHROPIC_API_KEY`.
 
 ## Käyttö
 
-Vaatii PowerShell 7:n ja Pester 5:n.
+Avaa repo GitHub Codespacesissa – PowerShell ja Pester asentuvat automaattisesti.
 
 ```powershell
-Install-Module Pester -MinimumVersion 5.0 -Scope CurrentUser
 Invoke-Pester ./tests -Output Detailed
 ./scripts/Invoke-Anonymization.ps1
+./scripts/New-KBDrafts.ps1
+
+Import-Module ./src/KnowledgeBase.psm1
+Get-KBArticle -Path ./output/kb -Status Luonnos | Format-Table id, title
+Set-KBArticleStatus -Path ./output/kb -Id KB-1001 -Status Hyväksytty -Reviewer Samu
+Get-KnowledgeBase -Path ./output/kb
 ```
 
 ## Rajoitukset
 
-Nimet tunnistetaan tiketin pyytäjä- ja yhteyshenkilökentistä. Vapaassa tekstissä mainittu ulkopuolinen henkilö, jota kentissä ei ole, ei tunnistu automaattisesti. Siksi artikkelit hyväksyy aina ihminen ennen julkaisua.
+Nimet tunnistetaan tiketin pyytäjä- ja yhteyshenkilökentistä. Vapaassa tekstissä mainittu ulkopuolinen henkilö, jota kentissä ei ole, ei tunnistu automaattisesti. Siksi artikkelit hyväksyy aina ihminen ennen julkaisua, eikä demoa ole tarkoitettu oikealle asiakasdatalle sellaisenaan.
