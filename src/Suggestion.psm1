@@ -10,7 +10,7 @@ $script:Concepts = [ordered]@{
     mailbox    = 'postilaatik', 'laatikko', 'laatikk', 'mailbox', 'shared'
     outlook    = 'outlook'
     missing    = 'puuttu', 'missing', 'näy', 'näkyy', 'näkyi', 'visible', 'show', 'löydä', 'hukassa', 'katos'
-    mfa        = 'mfa', 'authenticator', 'vahvistu', 'todennu', 'kaksivaih', '2fa'
+    mfa        = 'mfa', 'authenticator', 'vahvistu', 'kaksivaih', '2fa'
     phone      = 'puhelin', 'puhelim', 'phone', 'kännykk'
     bitlocker  = 'bitlocker', 'palautusavain', 'recovery', 'avainta'
     autopilot  = 'autopilot', 'käyttöönot', 'enrollment', '0x80180014'
@@ -56,7 +56,7 @@ function Get-TextToken {
             if ($concept) { break }
         }
 
-        if ($concept) { $result["#$concept"] = 2 }
+        if ($concept) { $result["#$concept"] = if ($concept -eq 'change') { 1 } else { 2 } }
         elseif ($w.Length -ge 4) { $result[$w.Substring(0, [Math]::Min(6, $w.Length))] = 1 }
     }
     return $result
