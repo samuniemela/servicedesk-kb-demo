@@ -78,6 +78,12 @@ Find-KBSuggestion -Text 'Jaettu laatikko ei näy Outlookissa' -KbPath ./output/k
 | `data/tickets.json` | 20 keksittyä tikettiä, joissa tahallisia henkilötietoja |
 | `tests/` | Pester-testit |
 
+## Power Automate -versio
+
+Luonnoksen ja hyväksynnän työnkulku on toteutettu myös Microsoft 365:n vakiotyökaluilla (ilman AI-vaihetta): kun SharePoint-listan tiketti merkitään ratkaistuksi, flow luo tietopankkiluonnoksen ja lähettää sen hyväksyjälle Approvals-toiminnolla. Päätös päivittää luonnoksen tilan. Kaksoiskappaleet estetään, ja kaikki toimii ilman premium-lisenssejä.
+
+Kuvat ja toteutuksen huomiot: [docs/power-automate](docs/power-automate/README.md)
+
 ## Rajoitukset
 
 - Nimet tunnistetaan tiketin pyytäjä- ja yhteyshenkilökentistä. Vapaassa tekstissä mainittu ulkopuolinen henkilö, jota kentissä ei ole, ei tunnistu automaattisesti. Siksi artikkelit hyväksyy aina ihminen.
