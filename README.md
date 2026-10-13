@@ -2,7 +2,7 @@
 
 Ratkaistuista tiketeistä syntyy tietopankkiartikkeleita tekoälyn avulla, ja uusi tiketti saa ratkaisuehdotuksen hyväksytyistä artikkeleista. Yksikään henkilötieto ei lähde koneelta.
 
-> Työnäyte. Kaikki data on keksittyä. PowerShell 7 + Pester, yli 160 testiä. Luonnokset voi viedä SharePointiin Microsoft Graphin kautta ja hyväksyä Power Automatessa.
+> Työnäyte. Kaikki data on keksittyä. PowerShell 7 + Pester, yli 160 testiä. Microsoft 365 -integraatio: luonnokset SharePointiin Microsoft Graphin kautta (Sites.Selected, varmennekirjautuminen) ja ihmisen hyväksyntä Power Automatessa.
 
 ## Miksi tämä?
 
@@ -42,7 +42,7 @@ Oikean AI:n (Claude) kirjoittamia ja ihmisen tarkistamia esimerkkiartikkeleita o
 4. **Hyväksyntä** – luonnos päätyy tietopankkiin vasta, kun ihminen hyväksyy sen. Paikallisesti komennolla tai Microsoft 365:ssä: luonnos kirjoitetaan SharePoint-listaan, ja Power Automate lähettää sen hyväksyjälle.
 5. **Ratkaisuehdotus** – uutta tikettiä verrataan hyväksyttyihin artikkeleihin paikallisesti. Vertailu ymmärtää suomen taivutusmuodot ja astevaihtelun sekä suomen- ja englanninkieliset termit ("postilaatikko" ↔ "mailbox").
 
-AI-taustajärjestelmä on vaihdettava: testitila toimii ilman verkkoyhteyttä ja API-avainta, Claude API ottaa avaimen ympäristömuuttujasta `ANTHROPIC_API_KEY`.
+AI-taustajärjestelmän voi vaihtaa: testitila toimii ilman verkkoyhteyttä ja API-avainta, Claude API ottaa avaimen ympäristömuuttujasta `ANTHROPIC_API_KEY`.
 
 ## Käyttö
 
@@ -83,6 +83,10 @@ Find-KBSuggestion -Text 'Jaettu laatikko ei näy Outlookissa' -KbPath ./output/k
 | `tests/` | Pester-testit |
 
 ## Microsoft 365: SharePoint ja Power Automate
+
+![Clauden luonnos hyväksyttynä SharePoint-listalla](docs/power-automate/08-ai-luonnos-listalla.png)
+
+Työnkulku on toteutettu myös Microsoft 365:ssä kahdella tavalla:
 
 Työnkulku on toteutettu myös Microsoft 365:ssä kahdella tavalla:
 
