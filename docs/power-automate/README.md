@@ -52,7 +52,7 @@ PowerShell kirjoittaa anonymisoidun, Clauden tuottaman luonnoksen **KB-luonnokse
 
 ![Hyväksyntä-flow'n rakenne](07-hyvaksynta-flow.png)
 
-![AI-luonnos KB-luonnokset-listalla, luojana sovellus](08-ai-luonnos-listalla.png)
+![Clauden luonnos hyväksyttynä: kategoria, lähdetiketti ja hyväksyjä](08-ai-luonnos-listalla.png)
 
 ### Flow "KB-luonnoksen hyväksyntä"
 
