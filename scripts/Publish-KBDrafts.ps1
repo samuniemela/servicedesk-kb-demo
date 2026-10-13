@@ -17,7 +17,8 @@ param(
     [string]$KbPath   = "$PSScriptRoot/../output/kb",
     [string]$SiteUrl  = $env:SP_SITE_URL,
     [string]$ListName = 'KB-luonnokset',
-    [string[]]$Id
+    [string[]]$Id,
+    [string]$CategoryMapPath = "$PSScriptRoot/../data/category-map.json"
 )
 
 $ErrorActionPreference = 'Stop'
@@ -35,13 +36,14 @@ if ($drafts.Count -eq 0) {
     return
 }
 
+$categoryMap = Import-SPCategoryMap -Path $CategoryMapPath
 $conn   = Connect-SPGraph
 $target = Get-SPKBListTarget -Connection $conn -SiteUrl $SiteUrl -ListName $ListName
 Write-Host "Kohde: $($target.ListName) ($SiteUrl), kirjautuminen: $($conn.Mode)"
 
 $results = foreach ($d in $drafts) {
     try {
-        $d | Publish-SPKBDraft -Connection $conn -Target $target -WhatIf:$WhatIfPreference
+        $d | Publish-SPKBDraft -Connection $conn -Target $target -CategoryMap $categoryMap -WhatIf:$WhatIfPreference
     }
     catch {
         [pscustomobject]@{ Id = $d.id; Tulos = 'Virhe'; ItemId = $null; Syy = $_.Exception.Message }
@@ -50,4 +52,9 @@ $results = foreach ($d in $drafts) {
 
 $results | Format-Table Id, Tulos, ItemId, Syy -AutoSize -Wrap
 $created = @($results | Where-Object Tulos -eq 'Luotu').Count
-Write-Host "Luotu $created / $($drafts.Count). Hyväksyntäpyyntö lähtee flow'sta 1–5 minuutin kuluessa." -ForegroundColor Green
+if ($created -gt 0) {
+    Write-Host "Luotu $created / $($drafts.Count). Hyväksyntäpyyntö lähtee flow'sta 1–5 minuutin kuluessa." -ForegroundColor Green
+}
+else {
+    Write-Host "Luotu 0 / $($drafts.Count). Listalle ei kirjoitettu mitään." -ForegroundColor Yellow
+}

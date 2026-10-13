@@ -147,6 +147,32 @@ Describe 'ConvertTo-SPKBFields' {
         $f.Keys | Should -Not -Contain 'Kategoria'
     }
 
+    It 'muuntaa kategorian listan valinnaksi koko nimellä' {
+        $g = New-FakeGraph -Choices 'Sähköposti', 'Laitteet'
+        $t = Get-SPKBListTarget -Connection $g.Connection -SiteUrl $script:SiteUrl
+        $map = @{ 'Exchange Online' = 'Sähköposti'; 'Intune' = 'Laitteet' }
+        (ConvertTo-SPKBFields -Article (New-Draft) -Target $t -CategoryMap $map).Kategoria | Should -Be 'Sähköposti'
+    }
+
+    It 'muuntaa kategorian ensimmäisen osan perusteella' {
+        $g = New-FakeGraph -Choices 'Sähköposti', 'Laitteet'
+        $t = Get-SPKBListTarget -Connection $g.Connection -SiteUrl $script:SiteUrl
+        $map = @{ 'Intune' = 'Laitteet' }
+        (ConvertTo-SPKBFields -Article (New-Draft @{ category = 'Intune / BitLocker' }) -Target $t -CategoryMap $map).Kategoria | Should -Be 'Laitteet'
+    }
+
+    It 'repon kategoriamääritys kattaa kaikki demon kategoriat' {
+        $map = Import-SPCategoryMap -Path "$PSScriptRoot/../data/category-map.json"
+        $choices = 'Sähköposti', 'Tunnistautuminen', 'Laitteet', 'Tiedostot', 'Jakaminen'
+        $g = New-FakeGraph -Choices $choices
+        $t = Get-SPKBListTarget -Connection $g.Connection -SiteUrl $script:SiteUrl
+        $cats = (Get-Content "$PSScriptRoot/../data/tickets.json" -Raw -Encoding utf8 | ConvertFrom-Json).category | Select-Object -Unique
+        foreach ($c in $cats) {
+            $f = ConvertTo-SPKBFields -Article (New-Draft @{ category = $c }) -Target $t -CategoryMap $map -WarningAction Stop
+            $choices | Should -Contain $f.Kategoria -Because "kategoria '$c'"
+        }
+    }
+
     It 'katkaisee otsikon 255 merkkiin' {
         $g = New-FakeGraph
         $t = Get-SPKBListTarget -Connection $g.Connection -SiteUrl $script:SiteUrl

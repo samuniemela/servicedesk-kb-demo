@@ -46,6 +46,18 @@ Install-Module Microsoft.Graph.Authentication -Scope CurrentUser
 
 Skripti kirjautuu ylläpitäjän tunnuksilla laitekoodilla (delegoitu `Sites.FullControl.All`), tarkistaa, onko oikeus jo olemassa, ja luo sen tarvittaessa. Ylläpitäjän oikeutta tarvitaan vain tähän kertaan; julkaisuskripti käyttää sovelluksen omaa, rajattua oikeutta.
 
+**Jos laitekoodikirjautuminen on estetty.** Uusissa tenanteissa Conditional Access voi estää laitekoodikirjautumisen ("You don't have access to this", AADSTS53003). Saman oikeuden voi antaa Graph Explorerissa ylläpitäjänä:
+
+1. `GET https://graph.microsoft.com/v1.0/sites/<tenant>.sharepoint.com:/sites/ServiceDesk` → kopioi vastauksen `id`.
+2. Modify permissions → `Sites.FullControl.All` → Consent.
+3. `POST https://graph.microsoft.com/v1.0/sites/<id>/permissions`, body:
+   ```json
+   { "roles": ["write"], "grantedToIdentities": [ { "application": { "id": "<client id>", "displayName": "ServiceDesk KB Publisher" } } ] }
+   ```
+   Vastaus `201 Created`.
+
+Graph Explorerille annetun `Sites.FullControl.All`-suostumuksen voi poistaa tämän jälkeen (Enterprise applications → Graph Explorer → Permissions).
+
 ## Ajo
 
 Tunnukset ympäristömuuttujiin. Codespacesissa ne voi tallentaa Codespaces-salaisuuksiksi (GitHub → Settings → Codespaces → Secrets), jolloin ne eivät päädy tiedostoihin eikä komentohistoriaan.
@@ -58,6 +70,13 @@ Tunnukset ympäristömuuttujiin. Codespacesissa ne voi tallentaa Codespaces-sala
 | `GRAPH_CERT_PASSWORD` | `.pfx`-tiedoston salasana, jos sellainen annettiin |
 | `GRAPH_CLIENT_SECRET` | Vaihtoehto varmenteelle |
 | `SP_SITE_URL` | `https://<tenant>.sharepoint.com/sites/ServiceDesk` |
+
+Codespacesissa muuttujat voi asettaa myös vain avoimeen terminaaliin, jolloin salasana kysytään piilotettuna:
+
+```powershell
+$env:GRAPH_CERT_PATH     = "$HOME/.certs/kb-publisher.pfx"
+$env:GRAPH_CERT_PASSWORD = Read-Host 'PFX-salasana' -MaskInput
+```
 
 ```powershell
 ./scripts/Invoke-Anonymization.ps1
@@ -87,7 +106,7 @@ Toinen ajo samalla luonnoksella antaa tuloksen *Ohitettu*, koska lähdetiketist�
 3. Lukee listan sarakkeet Graphista ja muotoilee kentät niiden mukaan:
    - *Ratkaisu* = syy ja numeroidut vaiheet. Rich text -sarakkeeseen HTML, tavalliseen tekstinä.
    - *Lahdetiketti* kirjoitetaan lukuna (1001), jos sarake on lukutyyppinen, muuten tekstinä (T-1001).
-   - *Kategoria* jätetään tyhjäksi varoituksen kanssa, jos sarake on valintasarake eikä arvoa ole valinnoissa.
+   - *Kategoria* muunnetaan listan valinnaksi tiedostolla `data/category-map.json` (esim. *Exchange Online* → *Sähköposti*, *Intune / BitLocker* → *Laitteet*). Jos arvoa ei silti ole valinnoissa, kenttä jätetään tyhjäksi varoituksen kanssa.
    - *Tila* = Luonnos. *Hyvaksyja* jää tyhjäksi; sen asettaa flow.
 4. Tarkistaa kaksoiskappaleet suodattimella `fields/Lahdetiketti eq ...`. Sarake ei ole indeksoitu, joten pyyntöön lisätään otsake `Prefer: HonorNonIndexedQueriesWarningMayFailRandomly`. Pienellä listalla tämä riittää; yli 5 000 kohteen listalla sarake kannattaa indeksoida.
 5. Luo kohteen: `POST /sites/{site-id}/lists/{list-id}/items`.

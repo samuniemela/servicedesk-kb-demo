@@ -267,12 +267,15 @@ function ConvertTo-SPKBFields {
     .DESCRIPTION
     Ratkaisu = syy + numeroidut vaiheet. Rich text -sarakkeeseen kirjoitetaan HTML, tavalliseen tekstiä.
     Lahdetiketti kirjoitetaan lukuna (1001), jos sarake on lukutyyppinen, muuten tekstinä (T-1001).
+    Kategoria muunnetaan listan valinnaksi -CategoryMap-taulukolla: ensin koko kategoria
+    ("Intune / BitLocker"), sitten sen ensimmäinen osa ("Intune").
     Hyvaksyja jätetään tyhjäksi: sen asettaa hyväksyntä-flow.
     #>
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)][object]$Article,
-        [Parameter(Mandatory)][object]$Target
+        [Parameter(Mandatory)][object]$Target,
+        [hashtable]$CategoryMap = @{}
     )
 
     $cols = $Target.Columns
@@ -306,7 +309,7 @@ function ConvertTo-SPKBFields {
         Tila         = 'Luonnos'
     }
 
-    $category = [string]$Article.category
+    $category = Resolve-SPCategory -Category ([string]$Article.category) -CategoryMap $CategoryMap
     $k = $cols.Kategoria
     if ($k.Kind -eq 'Choice' -and -not $k.AllowFillIn -and $k.Choices -notcontains $category) {
         Write-Warning "Kategoria '$category' ei ole listan valinnoissa ($($k.Choices -join ', ')). Kenttä jätetään tyhjäksi."
@@ -316,6 +319,29 @@ function ConvertTo-SPKBFields {
     }
 
     $fields
+}
+
+function Resolve-SPCategory {
+    param([string]$Category, [hashtable]$CategoryMap)
+    if (-not $Category -or -not $CategoryMap -or $CategoryMap.Count -eq 0) { return $Category }
+    if ($CategoryMap.ContainsKey($Category)) { return [string]$CategoryMap[$Category] }
+    $first = ($Category -split '\s*/\s*')[0]
+    if ($CategoryMap.ContainsKey($first)) { return [string]$CategoryMap[$first] }
+    $Category
+}
+
+function Import-SPCategoryMap {
+    <#
+    .SYNOPSIS
+    Lukee kategoriamäärityksen JSON-tiedostosta: { "tiketin kategoria": "listan valinta", ... }.
+    #>
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$Path)
+    if (-not (Test-Path $Path)) { return @{} }
+    $obj = Get-Content $Path -Raw -Encoding utf8 | ConvertFrom-Json
+    $map = @{}
+    foreach ($p in $obj.PSObject.Properties) { $map[$p.Name] = [string]$p.Value }
+    $map
 }
 
 # ---------------------------------------------------------------------------
@@ -357,7 +383,8 @@ function Publish-SPKBDraft {
         [Parameter(Mandatory, ValueFromPipeline)][object]$Article,
         [Parameter(Mandatory)][object]$Connection,
         [Parameter(Mandatory)][object]$Target,
-        [string[]]$KnownValues = @()
+        [string[]]$KnownValues = @(),
+        [hashtable]$CategoryMap = @{}
     )
 
     process {
@@ -374,7 +401,7 @@ function Publish-SPKBDraft {
             return (& $result 'Esto' $null "Henkilötietoja löytyi ($types). Mitään ei lähetetty.")
         }
 
-        $fields = ConvertTo-SPKBFields -Article $Article -Target $Target
+        $fields = ConvertTo-SPKBFields -Article $Article -Target $Target -CategoryMap $CategoryMap
 
         $existing = @(Find-SPKBDraft -Connection $Connection -Target $Target -SourceTicket $fields.Lahdetiketti)
         if ($existing.Count -gt 0) {
@@ -392,4 +419,4 @@ function Publish-SPKBDraft {
 }
 
 Export-ModuleMember -Function Connect-SPGraph, New-ClientAssertion, Invoke-SPGraph, Get-SPKBListTarget,
-    ConvertTo-SPKBFields, Find-SPKBDraft, Publish-SPKBDraft
+    ConvertTo-SPKBFields, Import-SPCategoryMap, Find-SPKBDraft, Publish-SPKBDraft

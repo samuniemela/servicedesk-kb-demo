@@ -2,7 +2,7 @@
 
 Ratkaistuista tiketeistä syntyy tietopankkiartikkeleita tekoälyn avulla, ja uusi tiketti saa ratkaisuehdotuksen hyväksytyistä artikkeleista. Yksikään henkilötieto ei lähde koneelta.
 
-> Työnäyte. Kaikki data on keksittyä. PowerShell 7 + Pester, yli 150 testiä. Luonnokset voi viedä SharePointiin Microsoft Graphin kautta ja hyväksyä Power Automatessa.
+> Työnäyte. Kaikki data on keksittyä. PowerShell 7 + Pester, yli 160 testiä. Luonnokset voi viedä SharePointiin Microsoft Graphin kautta ja hyväksyä Power Automatessa.
 
 ## Miksi tämä?
 
@@ -78,6 +78,7 @@ Find-KBSuggestion -Text 'Jaettu laatikko ei näy Outlookissa' -KbPath ./output/k
 | `src/SharePointGraph.psm1` | Luonnosten kirjoitus SharePoint-listaan Microsoft Graphin kautta |
 | `scripts/Publish-KBDrafts.ps1` | Vie luonnokset KB-luonnokset-listaan |
 | `scripts/Grant-SiteAccess.ps1` | Ylläpitäjän kertatoimi: sovellukselle pääsy yhteen sivustoon (Sites.Selected) |
+| `data/category-map.json` | Tikettien kategoriat → SharePoint-listan valinnat |
 | `data/tickets.json` | 20 keksittyä tikettiä, joissa tahallisia henkilötietoja |
 | `tests/` | Pester-testit |
 
