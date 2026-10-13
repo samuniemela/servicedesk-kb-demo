@@ -1,2 +1,5 @@
 output/
 *.env
+*.pfx
+*.key
+*.pem

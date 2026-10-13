@@ -2,7 +2,7 @@
 
 Ratkaistuista tiketeistä syntyy tietopankkiartikkeleita tekoälyn avulla, ja uusi tiketti saa ratkaisuehdotuksen hyväksytyistä artikkeleista. Yksikään henkilötieto ei lähde koneelta.
 
-> Työnäyte. Kaikki data on keksittyä. PowerShell 7 + Pester, yli 130 testiä.
+> Työnäyte. Kaikki data on keksittyä. PowerShell 7 + Pester, yli 150 testiä. Luonnokset voi viedä SharePointiin Microsoft Graphin kautta ja hyväksyä Power Automatessa.
 
 ## Miksi tämä?
 
@@ -39,7 +39,7 @@ Oikean AI:n (Claude) kirjoittamia ja ihmisen tarkistamia esimerkkiartikkeleita o
 1. **Anonymisointi** – nimet (myös taivutetut muodot), sähköpostit, puhelinnumerot, IP-osoitteet, sarjanumerot ja organisaatiot korvataan merkinnöillä.
 2. **Tarkistusportti** – jos henkilötietoja jää, mitään ei tallenneta eikä lähetetä eteenpäin.
 3. **Artikkeliluonnos** – AI kirjoittaa anonymisoidusta tiketistä ohjeen. AI-mallille lähtee vain tarkistusportin läpäissyt teksti ilman työlokia, ja myös vastaus tarkistetaan.
-4. **Hyväksyntä** – luonnos päätyy tietopankkiin vasta, kun ihminen hyväksyy sen.
+4. **Hyväksyntä** – luonnos päätyy tietopankkiin vasta, kun ihminen hyväksyy sen. Paikallisesti komennolla tai Microsoft 365:ssä: luonnos kirjoitetaan SharePoint-listaan, ja Power Automate lähettää sen hyväksyjälle.
 5. **Ratkaisuehdotus** – uutta tikettiä verrataan hyväksyttyihin artikkeleihin paikallisesti. Vertailu ymmärtää suomen taivutusmuodot ja astevaihtelun sekä suomen- ja englanninkieliset termit ("postilaatikko" ↔ "mailbox").
 
 AI-taustajärjestelmä on vaihdettava: testitila toimii ilman verkkoyhteyttä ja API-avainta, Claude API ottaa avaimen ympäristömuuttujasta `ANTHROPIC_API_KEY`.
@@ -75,17 +75,30 @@ Find-KBSuggestion -Text 'Jaettu laatikko ei näy Outlookissa' -KbPath ./output/k
 | `src/ServiceDeskKB.psm1` | Anonymisointi ja henkilötietojen tarkistus |
 | `src/KnowledgeBase.psm1` | AI-taustajärjestelmät, luonnokset, hyväksyntä |
 | `src/Suggestion.psm1` | Ratkaisuehdotukset |
+| `src/SharePointGraph.psm1` | Luonnosten kirjoitus SharePoint-listaan Microsoft Graphin kautta |
+| `scripts/Publish-KBDrafts.ps1` | Vie luonnokset KB-luonnokset-listaan |
+| `scripts/Grant-SiteAccess.ps1` | Ylläpitäjän kertatoimi: sovellukselle pääsy yhteen sivustoon (Sites.Selected) |
 | `data/tickets.json` | 20 keksittyä tikettiä, joissa tahallisia henkilötietoja |
 | `tests/` | Pester-testit |
 
-## Power Automate -versio
+## Microsoft 365: SharePoint ja Power Automate
 
-Luonnoksen ja hyväksynnän työnkulku on toteutettu myös Microsoft 365:n vakiotyökaluilla (ilman AI-vaihetta): kun SharePoint-listan tiketti merkitään ratkaistuksi, flow luo tietopankkiluonnoksen ja lähettää sen hyväksyjälle Approvals-toiminnolla. Päätös päivittää luonnoksen tilan. Kaksoiskappaleet estetään, ja kaikki toimii ilman premium-lisenssejä.
+Työnkulku on toteutettu myös Microsoft 365:ssä kahdella tavalla:
 
-Kuvat ja toteutuksen huomiot: [docs/power-automate](docs/power-automate/README.md)
+1. **Pelkät vakiotyökalut.** Kun SharePoint-listan tiketti merkitään ratkaistuksi, flow luo tietopankkiluonnoksen ja lähettää sen hyväksyjälle Approvals-toiminnolla. Ei AI-vaihetta, ei premium-lisenssejä.
+2. **PowerShell + Power Automate.** PowerShell kirjoittaa anonymisoidun, Clauden tuottaman luonnoksen KB-luonnokset-listaan Microsoft Graphin kautta. Sovelluksella on oikeus vain yhteen sivustoon (`Sites.Selected`), ja se kirjautuu varmenteella. Uusi luonnos käynnistää hyväksyntä-flow'n.
+
+```powershell
+./scripts/New-KBDrafts.ps1 -Provider Claude
+./scripts/Publish-KBDrafts.ps1 -WhatIf
+./scripts/Publish-KBDrafts.ps1
+```
+
+Ohjeet ja kuvat: [docs/sharepoint-graph.md](docs/sharepoint-graph.md) (app registration, oikeudet, ajo) ja [docs/power-automate](docs/power-automate/README.md) (flow't).
 
 ## Rajoitukset
 
 - Nimet tunnistetaan tiketin pyytäjä- ja yhteyshenkilökentistä. Vapaassa tekstissä mainittu ulkopuolinen henkilö, jota kentissä ei ole, ei tunnistu automaattisesti. Siksi artikkelit hyväksyy aina ihminen.
 - Ratkaisuehdotus perustuu sanastoon, ei semanttiseen hakuun. Laajempaan käyttöön sen voisi korvata upotusvektoreilla (embeddings).
+- SharePoint-julkaisu kirjoittaa vain luonnoksia. Hyväksytyt artikkelit eivät palaa automaattisesti paikalliseen tietopankkiin, jota ratkaisuehdotukset käyttävät.
 - Demoa ei ole tarkoitettu oikealle asiakasdatalle sellaisenaan.
