@@ -88,8 +88,6 @@ Find-KBSuggestion -Text 'Jaettu laatikko ei näy Outlookissa' -KbPath ./output/k
 
 Työnkulku on toteutettu myös Microsoft 365:ssä kahdella tavalla:
 
-Työnkulku on toteutettu myös Microsoft 365:ssä kahdella tavalla:
-
 1. **Pelkät vakiotyökalut.** Kun SharePoint-listan tiketti merkitään ratkaistuksi, flow luo tietopankkiluonnoksen ja lähettää sen hyväksyjälle Approvals-toiminnolla. Ei AI-vaihetta, ei premium-lisenssejä.
 2. **PowerShell + Power Automate.** PowerShell kirjoittaa anonymisoidun, Clauden tuottaman luonnoksen KB-luonnokset-listaan Microsoft Graphin kautta. Sovelluksella on oikeus vain yhteen sivustoon (`Sites.Selected`), ja se kirjautuu varmenteella. Uusi luonnos käynnistää hyväksyntä-flow'n.
 
